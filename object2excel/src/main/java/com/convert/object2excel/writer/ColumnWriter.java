@@ -18,12 +18,12 @@ public class ColumnWriter<T, R> {
     private String title;
     private boolean nullable = true;//set nullable,if false,will check null value
 
-    private ColumnCellStyle columnCellStyle;
+    private IColumnCellStyle columnCellStyle;
     private XSSFCellStyle xssfCellStyle;
 
     private Function<T, R> converter;
 
-    public ColumnWriter(String title, ColumnCellStyle style, Function<T, R> converter) {
+    public ColumnWriter(String title, IColumnCellStyle style, Function<T, R> converter) {
         this.title = title;
         this.columnCellStyle = style;
         this.converter = converter;
@@ -83,11 +83,6 @@ public class ColumnWriter<T, R> {
 
     }
 
-
-    public boolean isNullable() {
-        return nullable;
-    }
-
     /**
      * you can set nullable to check null value
      *
@@ -99,10 +94,6 @@ public class ColumnWriter<T, R> {
         return this;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
     public CellStyle getStyle(Workbook workbook) {
 
         if (columnCellStyle == null) {
@@ -110,10 +101,6 @@ public class ColumnWriter<T, R> {
         }
 
         return columnCellStyle.toXSSFCellStyle(workbook);
-    }
-
-    public Function<T, R> getConverter() {
-        return converter;
     }
 
     @Override

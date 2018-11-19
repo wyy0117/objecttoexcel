@@ -8,7 +8,7 @@ import org.apache.poi.ss.usermodel.Workbook;
  * @Author: wyy
  * @Date: 18-11-15 下午1:59
  */
-public class ColumnCellStyle {
+public class ColumnCellStyle implements IColumnCellStyle {
 
     private boolean lock;
 
