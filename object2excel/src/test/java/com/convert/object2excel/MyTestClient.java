@@ -61,6 +61,11 @@ public class MyTestClient {
                     componentProcessDTO -> componentProcessDTO.getProcessDTOList().get(index).getPlanStartTime()));
             sheet1ColumnWriterList.add(new ColumnWriter<ComponentProcessDTO, Date>(processDTO.getName() + "计划结束", dateStyle,
                     componentProcessDTO -> componentProcessDTO.getProcessDTOList().get(index).getPlanEndTime()));
+        }
+
+        for (int i = 0; i < processDTOList1.size(); i++) {
+            ProcessDTO processDTO = processDTOList1.get(i);
+            final int index = i;
             sheet1ColumnWriterList.add(new ColumnWriter<ComponentProcessDTO, Date>(processDTO.getName() + "实际开始", dateStyle,
                     componentProcessDTO -> componentProcessDTO.getProcessDTOList().get(index).getActualStartTime()));
             sheet1ColumnWriterList.add(new ColumnWriter<ComponentProcessDTO, Date>(processDTO.getName() + "实际结束", dateStyle,
@@ -90,6 +95,11 @@ public class MyTestClient {
                     componentProcessDTO -> componentProcessDTO.getProcessDTOList().get(index).getPlanStartTime()));
             sheet2ColumnWriterList.add(new ColumnWriter<ComponentProcessDTO, Date>(processDTO.getName() + "计划结束", dateStyle,
                     componentProcessDTO -> componentProcessDTO.getProcessDTOList().get(index).getPlanEndTime()));
+        }
+
+        for (int i = 0; i < processDTOList2.size(); i++) {
+            ProcessDTO processDTO = processDTOList2.get(i);
+            final int index = i;
             sheet2ColumnWriterList.add(new ColumnWriter<ComponentProcessDTO, Date>(processDTO.getName() + "实际开始", dateStyle,
                     componentProcessDTO -> componentProcessDTO.getProcessDTOList().get(index).getActualStartTime()));
             sheet2ColumnWriterList.add(new ColumnWriter<ComponentProcessDTO, Date>(processDTO.getName() + "实际结束", dateStyle,
@@ -117,11 +127,17 @@ public class MyTestClient {
                     componentProcessDTO -> componentProcessDTO.getProcessDTOList().get(index).getPlanStartTime()));
             sheet3ColumnWriterList.add(new ColumnWriter<ComponentProcessDTO, Date>(processDTO.getName() + "计划结束", dateStyle,
                     componentProcessDTO -> componentProcessDTO.getProcessDTOList().get(index).getPlanEndTime()));
+        }
+
+        for (int i = 0; i < processDTOList3.size(); i++) {
+            ProcessDTO processDTO = processDTOList3.get(i);
+            final int index = i;
             sheet3ColumnWriterList.add(new ColumnWriter<ComponentProcessDTO, Date>(processDTO.getName() + "实际开始", dateStyle,
                     componentProcessDTO -> componentProcessDTO.getProcessDTOList().get(index).getActualStartTime()));
             sheet3ColumnWriterList.add(new ColumnWriter<ComponentProcessDTO, Date>(processDTO.getName() + "实际结束", dateStyle,
                     componentProcessDTO -> componentProcessDTO.getProcessDTOList().get(index).getActualEndTime()));
         }
+
         sheet3ColumnWriterList.add(new ColumnWriter<>("构建二维码", unLockStyle, ComponentProcessDTO::getComponentCode));
 
 
@@ -171,17 +187,16 @@ public class MyTestClient {
             column_cellReader_map.put(1, nameReader);
             column_cellReader_map.put(2, descReader);
 
-            //需要根据列数添加不同数量的reader
             Row row = sheet.getRow(0);
             short columnNumber = row.getLastCellNum();//列数
             int processCount = (columnNumber - 4) / 4;//工序的数量
             Map<Integer, String> processIndex_processName_map = new HashMap<>();
             for (int i = 0; i < processCount; i++) {
-                String title = row.getCell(3 + i * 4).getStringCellValue();
+                String title = row.getCell(3 + i * 2).getStringCellValue();
                 processIndex_processName_map.put(i, title);
             }
 
-
+            //需要根据列数添加不同数量的reader
             for (int i = 0; i < processCount; i++) {
                 final int index = i;
                 CellReader<ComponentProcessDTO> planStartTimeReader = new CellReader<>((domain, cell) -> {
@@ -210,10 +225,10 @@ public class MyTestClient {
                     ProcessDTO processDTO = domain.getProcessDTOList().get(index);
                     processDTO.setActualEndTime(value);
                 });
-                column_cellReader_map.put(3 + index * 4, planStartTimeReader);
-                column_cellReader_map.put(4 + index * 4, planEndTimeReader);
-                column_cellReader_map.put(5 + index * 4, actualStartTimeReader);
-                column_cellReader_map.put(6 + index * 4, actualEndTimeReader);
+                column_cellReader_map.put(3 + index * 2, planStartTimeReader);
+                column_cellReader_map.put(4 + index * 2, planEndTimeReader);
+                column_cellReader_map.put(3 + processCount * 2 + index * 2, actualStartTimeReader);
+                column_cellReader_map.put(4 + processCount * 2 + index * 2, actualEndTimeReader);
             }
 
             CellReader<ComponentProcessDTO> componentCodeReader = new CellReader<>((domain, cell) -> {

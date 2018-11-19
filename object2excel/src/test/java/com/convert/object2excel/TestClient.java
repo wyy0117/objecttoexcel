@@ -82,7 +82,7 @@ public class TestClient {
             userDTO.setName(name);
         }));
 
-        CellReader<UserDTO>generReader = new CellReader<>(((userDTO, cell) -> {
+        CellReader<UserDTO>genderReader = new CellReader<>(((userDTO, cell) -> {
             boolean gender = cell.getBooleanCellValue();
             userDTO.setGender(gender);
         }));
@@ -99,12 +99,12 @@ public class TestClient {
 
         Map<Integer,CellReader<UserDTO>>index_cellReader1 = new HashMap<>();
         index_cellReader1.put(0,nameReader);
-        index_cellReader1.put(1,generReader);
+        index_cellReader1.put(1,genderReader);
         index_cellReader1.put(2,heightReader);
 
         Map<Integer,CellReader<UserDTO>>index_cellReader2 = new HashMap<>();
         index_cellReader2.put(0,nameReader);
-        index_cellReader2.put(1,generReader);
+        index_cellReader2.put(1,genderReader);
         index_cellReader2.put(2,heightReader);
         index_cellReader2.put(3,birthdayReader);
 
