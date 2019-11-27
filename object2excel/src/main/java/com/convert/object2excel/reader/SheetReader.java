@@ -29,6 +29,16 @@ public class SheetReader<T> {
         this.columnIndex_cellReader = columnIndex_cellReader;
     }
 
+    public SheetReader<T> setFromRow(int fromRow) {
+        this.fromRow = fromRow;
+        return this;
+    }
+
+    public SheetReader<T> setEndRow(int endRow) {
+        this.endRow = endRow;
+        return this;
+    }
+
     public SheetReader(Supplier<T> createInstance, Map<Integer, CellReader<T>> columnIndex_cellReader, int fromRow, int endRow) {
         this.createInstance = createInstance;
         this.columnIndex_cellReader = columnIndex_cellReader;
