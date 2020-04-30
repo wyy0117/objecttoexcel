@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -15,8 +16,7 @@ import java.util.*;
  */
 public class ExcelReader {
 
-    private File excelFile;
-
+    private Workbook workbook;
     /**
      * you can just read some sheet but all.
      * key:sheet index
@@ -24,8 +24,13 @@ public class ExcelReader {
      */
     private Map<Integer, SheetReader> sheetIndex_sheetReader_map;
 
-    public ExcelReader(File excelFile, Map<Integer, SheetReader> sheetIndex_sheetReader_map) {
-        this.excelFile = excelFile;
+    public ExcelReader(File excelFile, Map<Integer, SheetReader> sheetIndex_sheetReader_map) throws IOException, InvalidFormatException {
+        this.workbook = WorkbookFactory.create(excelFile);
+        this.sheetIndex_sheetReader_map = sheetIndex_sheetReader_map;
+    }
+
+    public ExcelReader(InputStream inputStream, Map<Integer, SheetReader> sheetIndex_sheetReader_map) throws IOException, InvalidFormatException {
+        this.workbook = WorkbookFactory.create(inputStream);
         this.sheetIndex_sheetReader_map = sheetIndex_sheetReader_map;
     }
 
@@ -34,7 +39,7 @@ public class ExcelReader {
      *
      * @return
      */
-    public Map<String, List> read() throws IOException, InvalidFormatException {
+    public Map<String, List> read() {
 
         Map<String, List> result = new HashMap<>();
         List<Sheet> sheetList = getSheets();
@@ -48,8 +53,7 @@ public class ExcelReader {
 
     }
 
-    private List<Sheet> getSheets() throws IOException, InvalidFormatException {
-        Workbook workbook = WorkbookFactory.create(excelFile);
+    private List<Sheet> getSheets() {
         Iterator<Sheet> sheetIterator = workbook.sheetIterator();
         List<Sheet> sheetList = new ArrayList<>();
 
